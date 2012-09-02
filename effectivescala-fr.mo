@@ -15,52 +15,52 @@
 
 ## Introduction
 
-[Scala][Scala] est l&apos;un des principaux langages de programmation d&apos;applications
-utilis&eacute; &agrave; Twitter. Une grande partie de notre infrastructure est &eacute;crite en Scala et
+[Scala][Scala] est l'un des principaux langages de programmation d'applications
+utilisé à Twitter. Une grande partie de notre infrastructure est écrite en Scala et
 [nous avons plusieurs grandes librairies](http://github.com/twitter/)
-pour aider dans son usage. Bien que tr&egrave;s efficace, Scala est aussi un langage &eacute;tendu,
-et notre exp&eacute;rience nous a appris &agrave; mettre en oeuvre le plus grand soin dans son
-utilisation. Quels sont les pi&egrave;ges &agrave; &eacute;viter? Quelles fonctionnalit&eacute;s devont nous utiliser,
-lequelles devons-nous &eacute;viter? Quand employons-nous le "style purement fonctionnel", et quand
-devons-nous l&apos;&eacute;viter? En d&apos;autres termes: qu&apos;avons nous trouv&eacute; comme utilisation efficace
-du langage? Ce guide tente de distiller notre exp&eacute;rience sous la forme de brefs
+pour aider dans son usage. Bien que très efficace, Scala est aussi un langage étendu,
+et notre expérience nous a appris à mettre en oeuvre le plus grand soin dans son
+utilisation. Quels sont les pièges à éviter? Quelles fonctionnalités devont nous utiliser,
+lequelles devons-nous éviter? Quand employons-nous le "style purement fonctionnel", et quand
+devons-nous l'éviter? En d'autres termes: qu'avons nous trouvé comme utilisation efficace
+du langage? Ce guide tente de distiller notre expérience sous la forme de brefs
 essais, en fournissant un ensemble de *meilleures pratiques*. Notre utilisation de Scala est principalement pour
-la cr&eacute;ation de services &agrave; haut volume qui forment des syst&egrave;mes distribu&eacute;s - et nos
-conseils sont donc biais&eacute;s - mais la plupart des pr&eacute;sents conseils devrait se traduire
-naturellement &agrave; d&apos;autres domaines. Ce n&apos;est pas la loi, mais tout &eacute;cart devrait
-&ecirc;tre bien justifi&eacute;s.
+la création de services à haut volume qui forment des systèmes distribués - et nos
+conseils sont donc biaisés - mais la plupart des présents conseils devrait se traduire
+naturellement à d'autres domaines. Ce n'est pas la loi, mais tout écart devrait
+être bien justifiés.
 
 Scala fournit de nombreux outils qui permettent une expression succincte. Moins de frappe,
-c&apos;est moins de lecture, et moins de lecture c&apos;est souvent une lecture plus rapide, et donc
-la bri&egrave;vet&eacute; am&eacute;liore la clart&eacute;. Cependant la bri&egrave;vet&eacute; est un outil &agrave; double-tranchant qui peut
-avoir aussi l&apos;effet inverse: Apr&egrave;s l&apos;exactitude, pensez toujours au
+c'est moins de lecture, et moins de lecture c'est souvent une lecture plus rapide, et donc
+la brièveté améliore la clarté. Cependant la brièveté est un outil à double-tranchant qui peut
+avoir aussi l'effet inverse: Après l'exactitude, pensez toujours au
 lecteur.
 
-Surtout, *programmer en Scala*. Vous n&apos;&eacute;crivez pas en Java, ni en Haskell,
-ni en Python, un programme Scala est diff&eacute;rent de ceux &eacute;crits dans un autre langage.
-Afin d&apos;utiliser un language de mani&egrave;re efficace, vous devez formuler vos probl&egrave;mes
-dans ses termes. Il ne sert &agrave; rien de copier un programme en Scala comme si c&apos;&eacute;tait Java, car
-il sera inf&eacute;rieur suivant la plupart des crit&egrave;res &agrave; sa version originale.
+Surtout, *programmer en Scala*. Vous n'écrivez pas en Java, ni en Haskell,
+ni en Python, un programme Scala est différent de ceux écrits dans un autre langage.
+Afin d'utiliser un language de manière efficace, vous devez formuler vos problèmes
+dans ses termes. Il ne sert à rien de copier un programme en Scala comme si c'était Java, car
+il sera inférieur suivant la plupart des critères à sa version originale.
 
-Ce n&apos;est pas une introduction &agrave; Scala, nous supposons que le lecteur
+Ce n'est pas une introduction à Scala, nous supposons que le lecteur
 est familier avec le langage. Certaines ressources pour apprendre Scala sont:
 
 * [Scala School](http://twitter.github.com/scala_school/)
 * [Learning Scala](http://www.scala-lang.org/node/1305)
 * [Learning Scala in Small Bites](http://matt.might.net/articles/learning-scala-in-small-bites/)
 
-Ceci est un document &eacute;volutif qui va changer pour refl&eacute;ter nos
-"meilleures pratiques" actuelles, mais ses id&eacute;es fondamentales ne sont pas susceptibles de changer: Toujours
-favoriser la lisibilit&eacute;; &eacute;crire du code g&eacute;n&eacute;rique, mais pas aux d&eacute;pends de
-la clart&eacute;; profiter des fonctionnalit&eacute;s simples du langage qui offrent une grande
-puissance mais surtout &eacute;viter les fonctions &eacute;sot&eacute;riques (en particulier dans le syst&egrave;me de type).
-Surtout, soyez toujours au courant des compromis que vous faites. Un langage sophistiqu&eacute;
-n&eacute;cessite une impl&eacute;mentation complexe, et la complexit&eacute; engendre
-la complexit&eacute;: du raisonnement, de la s&eacute;mantique, de l&apos;interaction entre
-les caract&eacute;ristiques et de la compr&eacute;hension de vos collaborateurs. Ainsi, la complexit&eacute;
-est la taxe de la sophistication - vous devez toujours veiller &agrave; ce que son utilit&eacute; soit sup&eacute;rieure &agrave; son co&ucirc;t.
+Ceci est un document évolutif qui va changer pour refléter nos
+"meilleures pratiques" actuelles, mais ses idées fondamentales ne sont pas susceptibles de changer: Toujours
+favoriser la lisibilité; écrire du code générique, mais pas aux dépends de
+la clarté; profiter des fonctionnalités simples du langage qui offrent une grande
+puissance mais surtout éviter les fonctions ésotériques (en particulier dans le système de type).
+Surtout, soyez toujours au courant des compromis que vous faites. Un langage sophistiqué
+nécessite une implémentation complexe, et la complexité engendre
+la complexité: du raisonnement, de la sémantique, de l'interaction entre
+les caractéristiques et de la compréhension de vos collaborateurs. Ainsi, la complexité
+est la taxe de la sophistication - vous devez toujours veiller à ce que son utilité soit supérieure à son coût.
 
-Et &eacute;clatez-vous !
+Et éclatez-vous !
 
 ## Formatting
 
