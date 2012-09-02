@@ -12,8 +12,11 @@ index-ja.html: header-jp.html.inc effectivescala-ja.html footer-jp.html.inc
 index-ru.html: header-ru.html.inc effectivescala-ru.html footer-ru.html.inc
 	cat $^ > $@
 
+index-fr.html: header-fr.html.inc effectivescala-fr.html footer-fr.html.inc
+	cat $^ > $@
+
 pub: all
-	./publish.sh index.html index-ja.html index-ru.html coll.png
+	./publish.sh index.html index-ja.html index-ru.html index-fr.html coll.png
 
 %.html: %.mo
 	cat $< | bash proc.sh | bash toc.sh | bash fmt.sh | $(MARKDOWN) > $@
