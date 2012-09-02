@@ -15,52 +15,52 @@
 
 ## Introduction
 
-[Scala][Scala] is one of the main application programming languages
-used at Twitter. Much of our infrastructure is written in Scala and
-[we have several large libraries](http://github.com/twitter/)
-supporting our use. While highly effective, Scala is also a large language,
-and our experiences have taught us to practice great care in its
-application. What are its pitfalls? Which features do we embrace,
-which do we eschew? When do we employ "purely functional style", and when
-do we avoid it? In other words: what have we found to be an effective
-use of the language?  This guide attempts to distill our experience into short
-essays, providing a set of *best practices*. Our use of Scala is mainly for
-creating high volume services that form distributed systems -- and our
-advice is thus biased -- but most of the advice herein should translate
-naturally to other domains. This is not the law, but deviation should
-be well justified.
+[Scala][Scala] est l&apos;un des principaux langages de programmation d&apos;applications
+utilis&eacute; &agrave; Twitter. Une grande partie de notre infrastructure est &eacute;crite en Scala et
+[nous avons plusieurs grandes librairies](http://github.com/twitter/)
+pour aider dans son usage. Bien que tr&egrave;s efficace, Scala est aussi un langage &eacute;tendu,
+et notre exp&eacute;rience nous a appris &agrave; mettre en oeuvre le plus grand soin dans son
+utilisation. Quels sont les pi&egrave;ges &agrave; &eacute;viter? Quelles fonctionnalit&eacute;s devont nous utiliser,
+lequelles devons-nous &eacute;viter? Quand employons-nous le "style purement fonctionnel", et quand
+devons-nous l&apos;&eacute;viter? En d&apos;autres termes: qu&apos;avons nous trouv&eacute; comme utilisation efficace
+du langage? Ce guide tente de distiller notre exp&eacute;rience sous la forme de brefs
+essais, en fournissant un ensemble de *meilleures pratiques*. Notre utilisation de Scala est principalement pour
+la cr&eacute;ation de services &agrave; haut volume qui forment des syst&egrave;mes distribu&eacute;s - et nos
+conseils sont donc biais&eacute;s - mais la plupart des pr&eacute;sents conseils devrait se traduire
+naturellement &agrave; d&apos;autres domaines. Ce n&apos;est pas la loi, mais tout &eacute;cart devrait
+&ecirc;tre bien justifi&eacute;s.
 
-Scala provides many tools that enable succinct expression. Less typing
-is less reading, and less reading is often faster reading, and thus
-brevity enhances clarity. However brevity is a blunt tool that can
-also deliver the opposite effect: After correctness, think always of
-the reader.
+Scala fournit de nombreux outils qui permettent une expression succincte. Moins de frappe,
+c&apos;est moins de lecture, et moins de lecture c&apos;est souvent une lecture plus rapide, et donc
+la bri&egrave;vet&eacute; am&eacute;liore la clart&eacute;. Cependant la bri&egrave;vet&eacute; est un outil &agrave; double-tranchant qui peut
+avoir aussi l&apos;effet inverse: Apr&egrave;s l&apos;exactitude, pensez toujours au
+lecteur.
 
-Above all, *program in Scala*. You are not writing Java, nor Haskell,
-nor Python; a Scala program is unlike one written in any of these. In
-order to use the language effectively, you must phrase your problems
-in its terms. There's no use coercing a Java program into Scala, for
-it will be inferior in most ways to its original.
+Surtout, *programmer en Scala*. Vous n&apos;&eacute;crivez pas en Java, ni en Haskell,
+ni en Python, un programme Scala est diff&eacute;rent de ceux &eacute;crits dans un autre langage.
+Afin d&apos;utiliser un language de mani&egrave;re efficace, vous devez formuler vos probl&egrave;mes
+dans ses termes. Il ne sert &agrave; rien de copier un programme en Scala comme si c&apos;&eacute;tait Java, car
+il sera inf&eacute;rieur suivant la plupart des crit&egrave;res &agrave; sa version originale.
 
-This is not an introduction to Scala; we assume the reader
-is familiar with the language. Some resources for learning Scala are:
+Ce n&apos;est pas une introduction &agrave; Scala, nous supposons que le lecteur
+est familier avec le langage. Certaines ressources pour apprendre Scala sont:
 
 * [Scala School](http://twitter.github.com/scala_school/)
 * [Learning Scala](http://www.scala-lang.org/node/1305)
 * [Learning Scala in Small Bites](http://matt.might.net/articles/learning-scala-in-small-bites/)
 
-This is a living document that will change to reflect our current
-"best practices," but its core ideas are unlikely to change: Always
-favor readability; write generic code but not at the expensive of
-clarity; take advantage of simple language features that afford great
-power but avoid the esoteric ones (especially in the type system).
-Above all, be always aware of the trade offs you make. A sophisticated
-language requires a complex implementation, and complexity begets
-complexity: of reasoning, of semantics, of interaction between
-features, and of the understanding of your collaborators. Thus complexity
-is the tax of sophistication -- you must always ensure that its utility exceeds its cost.
+Ceci est un document &eacute;volutif qui va changer pour refl&eacute;ter nos
+"meilleures pratiques" actuelles, mais ses id&eacute;es fondamentales ne sont pas susceptibles de changer: Toujours
+favoriser la lisibilit&eacute;; &eacute;crire du code g&eacute;n&eacute;rique, mais pas aux d&eacute;pends de
+la clart&eacute;; profiter des fonctionnalit&eacute;s simples du langage qui offrent une grande
+puissance mais surtout &eacute;viter les fonctions &eacute;sot&eacute;riques (en particulier dans le syst&egrave;me de type).
+Surtout, soyez toujours au courant des compromis que vous faites. Un langage sophistiqu&eacute;
+n&eacute;cessite une impl&eacute;mentation complexe, et la complexit&eacute; engendre
+la complexit&eacute;: du raisonnement, de la s&eacute;mantique, de l&apos;interaction entre
+les caract&eacute;ristiques et de la compr&eacute;hension de vos collaborateurs. Ainsi, la complexit&eacute;
+est la taxe de la sophistication - vous devez toujours veiller &agrave; ce que son utilit&eacute; soit sup&eacute;rieure &agrave; son co&ucirc;t.
 
-And have fun.
+Et &eacute;clatez-vous !
 
 ## Formatting
 
