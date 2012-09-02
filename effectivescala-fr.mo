@@ -9,7 +9,6 @@
 
 
 <h2>Other languages</h2>
-<a href="index-fr.html">Français</a>
 <a href="index-ja.html">日本語</a>
 <a href="index-ru.html">Русский</a>
 
