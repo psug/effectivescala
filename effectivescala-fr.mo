@@ -16,24 +16,24 @@
 ## Introduction
 
 [Scala][Scala] est l'un des principaux langages de programmation d'applications
-utilisé à Twitter. Une grande partie de notre infrastructure est écrite en Scala et
+utilisé chez Twitter. Une grande partie de notre infrastructure est écrite en Scala et
 [nous avons plusieurs grandes librairies](http://github.com/twitter/)
 pour aider dans son usage. Bien que très efficace, Scala est aussi un langage étendu,
-et notre expérience nous a appris à mettre en oeuvre le plus grand soin dans son
+et notre expérience nous a appris à mettre en oeuvre la plus grande rigueur dans son
 utilisation. Quels sont les pièges à éviter? Quelles fonctionnalités devont nous utiliser,
-lequelles devons-nous éviter? Quand employons-nous le "style purement fonctionnel", et quand
-devons-nous l'éviter? En d'autres termes: qu'avons nous trouvé comme utilisation efficace
-du langage? Ce guide tente de distiller notre expérience sous la forme de brefs
-essais, en fournissant un ensemble de *meilleures pratiques*. Notre utilisation de Scala est principalement pour
-la création de services à haut volume qui forment des systèmes distribués - et nos
-conseils sont donc biaisés - mais la plupart des présents conseils devrait se traduire
-naturellement à d'autres domaines. Ce n'est pas la loi, mais tout écart devrait
-être bien justifiés.
+lequelles devons-nous éviter ? Quand employons-nous le "style purement fonctionnel", et quand
+devons-nous l'éviter ? En d'autres termes : qu'avons nous trouvé comme utilisation efficace
+du langage ? Ce guide tente de distiller notre expérience sous la forme de cours
+extraits, en fournissant un ensemble de *meilleures pratiques*. Notre usage de Scala concerne principalement 
+la création de services à forte volumétrie à travers des systèmes distribués - et par conséquent nos
+conseils s'avèrent biaisés - mais la plupart des nos recommendations devraient naturellement s'appliquer
+aux autres domaines. Ces conseils ne sont pas non plus une régle stricte, mais tout écart devrait
+être justifiés.
 
-Scala fournit de nombreux outils qui permettent une expression succincte. Moins de frappe,
+Scala fournit de nombreux outils qui permettent une expressivité succincte. Moins de frappe,
 c'est moins de lecture, et moins de lecture c'est souvent une lecture plus rapide, et donc
 la brièveté améliore la clarté. Cependant la brièveté est un outil à double-tranchant qui peut
-avoir aussi l'effet inverse: Après l'exactitude, pensez toujours au
+avoir aussi l'effet inverse : au delà l'exactitude, pensez toujours au
 lecteur.
 
 Surtout, *programmer en Scala*. Vous n'écrivez pas en Java, ni en Haskell,
@@ -42,21 +42,21 @@ Afin d'utiliser un language de manière efficace, vous devez formuler vos probl�
 dans ses termes. Il ne sert à rien de copier un programme en Scala comme si c'était Java, car
 il sera inférieur suivant la plupart des critères à sa version originale.
 
-Ce n'est pas une introduction à Scala, nous supposons que le lecteur
-est familier avec le langage. Certaines ressources pour apprendre Scala sont:
+Ceci n'est pas une introduction à Scala, nous supposons que le lecteur
+est familier avec le langage. Certaines ressources pour apprendre Scala sont :
 
 * [Scala School](http://twitter.github.com/scala_school/)
 * [Learning Scala](http://www.scala-lang.org/node/1305)
 * [Learning Scala in Small Bites](http://matt.might.net/articles/learning-scala-in-small-bites/)
 
 Ceci est un document évolutif qui va changer pour refléter nos
-"meilleures pratiques" actuelles, mais ses idées fondamentales ne sont pas susceptibles de changer: Toujours
-favoriser la lisibilité; écrire du code générique, mais pas aux dépends de
-la clarté; profiter des fonctionnalités simples du langage qui offrent une grande
-puissance mais surtout éviter les fonctions ésotériques (en particulier dans le système de type).
-Surtout, soyez toujours au courant des compromis que vous faites. Un langage sophistiqué
+"meilleures pratiques" actuelles, mais ses idées fondamentales ne devraient pas être susceptibles de changer : toujours
+favoriser la lisibilité ; écrire du code générique, mais pas aux dépends de
+la clarté ; profiter des fonctionnalités simples du langage qui offrent une grande
+puissance mais éviter les fonctions ésotériques (en particulier dans le système de type).
+Surtout, soyez toujours conscient des compromis que vous faites. Un langage sophistiqué
 nécessite une implémentation complexe, et la complexité engendre
-la complexité: du raisonnement, de la sémantique, de l'interaction entre
+la complexité : du raisonnement, de la sémantique, de l'interaction entre
 les caractéristiques et de la compréhension de vos collaborateurs. Ainsi, la complexité
 est la taxe de la sophistication - vous devez toujours veiller à ce que son utilité soit supérieure à son coût.
 
